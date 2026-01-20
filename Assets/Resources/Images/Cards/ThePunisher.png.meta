@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ThePunisher_0: 1843913370208703580
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

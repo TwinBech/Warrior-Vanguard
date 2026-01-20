@@ -294,6 +294,19 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
         damage = stats.ability.immune.TriggerDamaged(this, damage);
 
+        List<Task> asyncFunctions = new();
+
+        if (!stats.ability.refuge.GetValue(stats) && !dealer.stats.ability.enflame.GetValue(dealer.stats)) {
+            List<Warrior> friends = gridManager.GetFriends(stats.alignment, this);
+            foreach (var friend in friends) {
+                if (friend.stats.ability.refuge.GetValue(friend.stats)) {
+                    int newDamage = friend.stats.ability.refuge.Trigger(friend, damage);
+                    asyncFunctions.Add(friend.TakeDamage(dealer, damage - newDamage, damageType));
+                    damage = newDamage;
+                }
+            }
+        }
+
         if (damage < 0) {
             damage = 0;
         }
@@ -305,8 +318,6 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                 damage++;
             }
         }
-
-        List<Task> asyncFunctions = new();
 
         if (damage > 0) {
             stats.AddHealthCurrent(-damage);

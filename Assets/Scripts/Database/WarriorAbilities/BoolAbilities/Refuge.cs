@@ -1,13 +1,15 @@
+using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEngine;
-public class ThickSkin {
+public class Refuge {
     public string GetDescription(WarriorStats stats) {
         if (!GetValue(stats)) return "";
-        return $"Take half damage";
+        return $"Your other warriors take half damage. This takes the rest";
     }
 
-    public int TriggerDamaged(Warrior target, int damage) {
-        if (GetValue(target.stats)) {
+    public int Trigger(Warrior dealer, int damage) {
+        if (GetValue(dealer.stats)) {
             damage = Mathf.CeilToInt(damage / 2f);
         }
         return damage;

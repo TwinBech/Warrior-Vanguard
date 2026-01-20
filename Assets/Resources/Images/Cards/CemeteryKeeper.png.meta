@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CemeteryKeeper_0: -487782544069883620
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

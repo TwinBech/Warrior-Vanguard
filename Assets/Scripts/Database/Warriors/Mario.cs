@@ -16,8 +16,7 @@ public class Mario : WarriorStats {
         }
 
         WarriorAbility ability = stats.ability;
-        ability.unstableEnergy.Add();
-        ability.stealEssence.Add();
+        ability.refuge.Add();
 
         return stats;
     }

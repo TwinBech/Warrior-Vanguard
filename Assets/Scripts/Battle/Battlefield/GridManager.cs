@@ -271,12 +271,15 @@ public class GridManager : MonoBehaviour {
         return warriors;
     }
 
-    public List<Warrior> GetFriends(Alignment alignment) {
+    public List<Warrior> GetFriends(Alignment alignment, Warrior excludedWarrior = null) {
         List<Warrior> friends = new();
         foreach (Warrior warrior in allWarriors) {
             if (warrior.stats.alignment == alignment) {
                 friends.Add(warrior);
             }
+        }
+        if (excludedWarrior) {
+            friends.Remove(excludedWarrior);
         }
         return friends;
     }

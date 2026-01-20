@@ -131,6 +131,7 @@ public class WarriorAbility {
     public TurnSwap turnSwap = new();
     public Purge purge = new();
     public UnstableEnergy unstableEnergy = new();
+    public Refuge refuge = new();
 
     // Buffs and Debuffs
     public Poisoned poisoned = new();

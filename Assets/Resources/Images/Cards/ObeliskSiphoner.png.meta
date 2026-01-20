@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ObeliskSiphoner_0: -5303721446796843764
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
