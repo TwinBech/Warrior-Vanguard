@@ -1,16 +1,16 @@
-public class ShadowSerpant {
+public class HydricTheConsumer {
     public WarriorStats GetStats() {
         WarriorStats stats = new() {
             title = GetType().Name,
             levelUnlocked = 1,
-            cost = new int[] { 4, 4 },
-            strength = new int[] { 2, 3 },
-            health = new int[] { 6, 6 },
+            cost = new int[] { 8, 8 },
+            strength = new int[] { 3, 3 },
+            health = new int[] { 17, 17 },
             speed = 2,
             range = 1,
             damageType = DamageType.Physical,
             race = Race.Hydra,
-            rarity = CardRarity.Common,
+            rarity = CardRarity.Legendary,
             genre = Genre.Underworld,
         };
         for (int i = 0; i < 2; i++) {
@@ -18,9 +18,10 @@ public class ShadowSerpant {
         }
 
         WarriorAbility ability = stats.ability;
-        //TODO: Stealth double damage only triggers on one enemy, because it strikes in a loop, and loses stealth after first strike. We should consider if it's worth trying to fix it.
         ability.whirlwind.Add();
-        ability.stealth.Add();
+        ability.regeneration.Add(4, 5);
+        ability.bloodlust.Add(1, 2);
+        ability.cannibalism.Add(2, 3);
 
         return stats;
     }

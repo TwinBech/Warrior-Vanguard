@@ -7,7 +7,7 @@ public class Whirlwind {
         return $"{Keyword.Attack}: Strike all nearby enemies";
     }
 
-    public bool HasNearbyEnemy(Warrior dealer, GridManager gridManager) {
+    bool HasNearbyEnemy(Warrior dealer, GridManager gridManager) {
         if (GetValue(dealer.stats)) {
             List<Warrior> enemies = gridManager.GetNearbyEnemies(dealer);
             if (enemies.Count == 0) return false;
@@ -19,14 +19,13 @@ public class Whirlwind {
 
     public async Task<bool> TriggerAttack(Warrior dealer, GridManager gridManager) {
         if (GetValue(dealer.stats) && HasNearbyEnemy(dealer, gridManager)) {
-
             List<Warrior> enemies = gridManager.GetNearbyEnemies(dealer);
             List<Task> asyncFunctions = new();
             foreach (Warrior enemy in enemies) {
                 asyncFunctions.Add(dealer.Strike(enemy));
             }
-
             await Task.WhenAll(asyncFunctions);
+            dealer.stats.attackedThisTurn = true;
             return true;
         }
         return false;

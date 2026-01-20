@@ -24,6 +24,7 @@ public class Guard {
 
             if (nearbyEnemy) {
                 await dealer.Attack(nearbyEnemy);
+                dealer.stats.attackedThisTurn = true;
                 return true;
             }
         }

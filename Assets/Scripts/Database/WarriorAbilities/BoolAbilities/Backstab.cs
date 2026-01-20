@@ -23,6 +23,7 @@ public class Backstab {
 
             if (neighbor) {
                 await dealer.Attack(neighbor, true);
+                dealer.stats.attackedThisTurn = true;
                 return true;
             }
         }
