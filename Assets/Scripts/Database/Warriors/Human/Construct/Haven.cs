@@ -19,6 +19,7 @@ public class Haven {
 
         WarriorAbility ability = stats.ability;
         ability.construct.Add();
+        ability.refuge.Add();
         ability.armor.Add(0, 1);
 
         return stats;
