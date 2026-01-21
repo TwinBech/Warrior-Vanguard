@@ -46,10 +46,14 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         strengthText.text = $"{stats.GetStrength()}";
         healthText.text = $"{stats.GetHealthCurrent()}";
 
-        if (stats.damageType == DamageType.Physical) {
-            strengthImage.sprite = Resources.Load<Sprite>("Images/Icons/WarriorStrength");
-        } else if (stats.damageType == DamageType.Magical) {
-            strengthImage.sprite = Resources.Load<Sprite>("Images/Icons/WarriorMagical");
+        if (stats.ability.enflame.GetValue(stats)) {
+            strengthImage.sprite = Resources.Load<Sprite>("Images/Icons/Enflame");
+        } else {
+            if (stats.damageType == DamageType.Physical) {
+                strengthImage.sprite = Resources.Load<Sprite>("Images/Icons/WarriorStrength");
+            } else if (stats.damageType == DamageType.Magical) {
+                strengthImage.sprite = Resources.Load<Sprite>("Images/Icons/WarriorMagical");
+            }
         }
 
         if (stats.GetHealthCurrent() == stats.GetHealthMax()) {

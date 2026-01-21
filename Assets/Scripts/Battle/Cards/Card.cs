@@ -36,7 +36,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
         string racePath = stats.race != Race.None ? $"{stats.race}/" : "";
         Sprite sprite = Resources.Load<Sprite>($"Images/Cards/{genrePath}{racePath}{stats.title}");
         image.GetComponent<Image>().sprite = sprite != null ? sprite : Resources.Load<Sprite>($"Images/Icons/Red Cross");
-        
+
         if (stats.level == 1) {
             GetComponent<Image>().sprite = Resources.Load<Sprite>($"Images/Icons/GoldenBackground");
         } else {
@@ -55,10 +55,14 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
             strengthText.text = $"{stats.GetStrength()}";
             healthText.text = $"{stats.GetHealthCurrent()}";
 
-            if (stats.damageType == DamageType.Physical) {
-                strengthImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Icons/WarriorStrength");
-            } else if (stats.damageType == DamageType.Magical) {
-                strengthImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Icons/WarriorMagical");
+            if (stats.ability.enflame.GetValue(stats)) {
+                strengthImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Icons/Enflame");
+            } else {
+                if (stats.damageType == DamageType.Physical) {
+                    strengthImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Icons/WarriorStrength");
+                } else if (stats.damageType == DamageType.Magical) {
+                    strengthImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Icons/WarriorMagical");
+                }
             }
 
             if (stats.GetHealthCurrent() == stats.GetHealthMax()) {

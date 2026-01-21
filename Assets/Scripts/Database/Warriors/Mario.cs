@@ -3,19 +3,20 @@ public class Mario : WarriorStats {
         WarriorStats stats = new() {
             title = "Mario",
             cost = new int[] { 0, 0 },
-            strength = new int[] { 10, 1 },
+            strength = new int[] { 2, 2 },
             health = new int[] { 10, 10 },
             speed = 2,
             range = 2,
             damageType = DamageType.Physical,
             race = Race.None,
-            genre = Genre.Human,
+            genre = Genre.None,
         };
         for (int i = 0; i < 2; i++) {
             stats.healthMax[i] = stats.health[i];
         }
 
         WarriorAbility ability = stats.ability;
+        ability.enflame.Add();
 
         return stats;
     }
