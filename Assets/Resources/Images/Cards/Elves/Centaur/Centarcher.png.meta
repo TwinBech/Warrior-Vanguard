@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c22db94e68e00bf4aa195aa01190af5a
+guid: 88ff8613ec4fa014d98a03bd9b345fd3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7475898968862884046
-    second: Haven_0
+      213: 6110454033996024682
+    second: Centarcher_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Haven_0
+      name: Centarcher_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23ff7303f75404890800000000000000
-      internalID: -7475898968862884046
+      spriteID: a6b8fa0c191bcc450800000000000000
+      internalID: 6110454033996024682
       vertices: []
       indices: 
       edges: []

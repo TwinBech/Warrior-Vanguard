@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c5679e33a2b73d44e8051026ddd83e49
+guid: 8757cea692cc50f4eb51ceaad2de8fa4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3640923842357445704
-    second: LakeSerpant_0
+      213: 5236341070283511187
+    second: HydricTheConsumer_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LakeSerpant_0
+      name: HydricTheConsumer_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bbb80a4e07d87dc0800000000000000
-      internalID: -3640923842357445704
+      spriteID: 3959909c5783ba840800000000000000
+      internalID: 5236341070283511187
       vertices: []
       indices: 
       edges: []
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      HydricTheConsumer_0: 5236341070283511187
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

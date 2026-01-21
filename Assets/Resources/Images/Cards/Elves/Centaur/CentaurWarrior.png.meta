@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 87de85104872fd645a7a6f854e627ccd
+guid: 24e5fa8a510e790489cfeb1654febeb3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4009142930889220349
-    second: BabyHydra_0
+      213: 7074244693025174430
+    second: CentaurWarrior_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BabyHydra_0
+      name: CentaurWarrior_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 30f5496eeb9ac58c0800000000000000
-      internalID: -4009142930889220349
+      spriteID: e9335fd3114cc2260800000000000000
+      internalID: 7074244693025174430
       vertices: []
       indices: 
       edges: []

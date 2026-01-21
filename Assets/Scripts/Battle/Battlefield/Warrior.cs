@@ -58,7 +58,9 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
             healthText.color = ColorPalette.GetColor(ColorEnum.Red);
         }
 
-        Sprite sprite = Resources.Load<Sprite>($"Images/Cards/{stats.title}");
+        string genrePath = stats.genre != Genre.None ? $"{stats.genre}/" : "";
+        string racePath = stats.race != Race.None ? $"{stats.race}/" : "";
+        Sprite sprite = Resources.Load<Sprite>($"Images/Cards/{genrePath}{racePath}{stats.title}");
         image.GetComponent<Image>().sprite = sprite != null ? sprite : Resources.Load<Sprite>($"Images/Icons/Red Cross");
 
         if (stats.alignment == Alignment.Friend) {

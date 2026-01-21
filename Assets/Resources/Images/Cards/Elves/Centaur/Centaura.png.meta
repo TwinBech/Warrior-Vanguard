@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 24e5fa8a510e790489cfeb1654febeb3
+guid: ec63a03371fb1e945be18e5a2cd15e82
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7074244693025174430
-    second: CentaurWarrior_0
+      213: -7144214405163454231
+    second: Centaura_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,24 +96,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CentaurWarrior_0
+      name: Centaura_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e9335fd3114cc2260800000000000000
-      internalID: 7074244693025174430
+      spriteID: 9e0f005a9d6aadc90800000000000000
+      internalID: -7144214405163454231
       vertices: []
       indices: 
       edges: []
@@ -147,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      CentaurWarrior_0: 7074244693025174430
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

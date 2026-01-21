@@ -30,9 +30,13 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
     public void UpdateCardUI() {
         costText.text = $"{stats.GetCost()}";
-        Sprite sprite = Resources.Load<Sprite>($"Images/Cards/{stats.title}");
-        image.GetComponent<Image>().sprite = sprite != null ? sprite : Resources.Load<Sprite>($"Images/Icons/Red Cross");
         titleText.text = $"{stats.displayTitle}";
+
+        string genrePath = stats.genre != Genre.None ? $"{stats.genre}/" : "";
+        string racePath = stats.race != Race.None ? $"{stats.race}/" : "";
+        Sprite sprite = Resources.Load<Sprite>($"Images/Cards/{genrePath}{racePath}{stats.title}");
+        image.GetComponent<Image>().sprite = sprite != null ? sprite : Resources.Load<Sprite>($"Images/Icons/Red Cross");
+        
         if (stats.level == 1) {
             GetComponent<Image>().sprite = Resources.Load<Sprite>($"Images/Icons/GoldenBackground");
         } else {

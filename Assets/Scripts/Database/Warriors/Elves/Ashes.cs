@@ -5,7 +5,7 @@ public class Ashes {
             levelUnlocked = 1,
             cost = new int[] { 0, 0 },
             strength = new int[] { 0, 0 },
-            health = new int[] { 1, 0 },
+            health = new int[] { 1, 1 },
             speed = 0,
             range = 0,
             damageType = DamageType.Physical,

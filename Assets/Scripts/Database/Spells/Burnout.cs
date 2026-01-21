@@ -15,6 +15,7 @@ public class Burnout {
             "Your deck is empty! Your summoner takes damage instead"
             },
             race = Race.None,
+            genre = Genre.None,
             cardType = CardType.Spell,
         };
         
