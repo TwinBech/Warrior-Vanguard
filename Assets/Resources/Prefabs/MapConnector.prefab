@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4650565190007802134}
   - component: {fileID: 2945796441568580229}
   - component: {fileID: 132462541171396143}
+  - component: {fileID: 4002155467458365617}
   m_Layer: 5
   m_Name: MapConnector
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4002155467458365617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2684363697912398410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3afd8d5f1792484ead8183035d3a23b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
