@@ -17,7 +17,6 @@ public class TileManager : MonoBehaviour {
 
     private void Start() {
         StartCoroutine(CreateMapTiles());
-        UpdateTileAccess();
     }
 
     private void UpdateTileAccess() {
@@ -223,5 +222,6 @@ public class TileManager : MonoBehaviour {
                     break;
             }
         }
+        UpdateTileAccess();
     }
 }
