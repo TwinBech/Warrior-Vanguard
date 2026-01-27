@@ -10,20 +10,20 @@ public static class LevelManager {
         if (FriendlySummoner.currentHealth == 1) {
             PlayerPrefs.SetInt(PlayerPrefsKeys.adrenalineRush, 1);
             PlayerPrefs.Save();
-        } 
+        }
 
         TileCompleter.MarkTileAsCompleted();
         GoldManager.AddGold(50);
         ExperienceManager.AddTempExperience(25);
-        
 
-        SceneLoader.LoadScene(SceneLoader.Scene.Map);
+
+        SceneLoader.LoadScene(Scene.Map);
         ItemManager.enemyItem = null;
     }
 
     public static void LoseLevel() {
         isAlive = false;
-        SceneLoader.LoadScene(SceneLoader.Scene.GameOver);
+        SceneLoader.LoadScene(Scene.GameOver);
     }
 
     public static void SetCurrentTile(MapTile tile) {

@@ -27,7 +27,7 @@ public class RewardManager : MonoBehaviour {
                 PlayerPrefs.SetInt(PlayerPrefsKeys.theseWereEasierToFind, 1);
             }
 
-            SceneLoader.LoadScene(SceneLoader.Scene.GameOver);
+            SceneLoader.LoadScene(Scene.GameOver);
             return;
         }
 

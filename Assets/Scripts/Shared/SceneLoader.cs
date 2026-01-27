@@ -2,17 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class SceneLoader {
-    public enum Scene {
-        MainMenu,
-        SummonerSelector,
-        Battlefield,
-        Shop,
-        Map,
-        Credits,
-        Event,
-        GameOver,
-        Campfire
-    }
     public static void LoadScene(Scene scene) {
         SceneManager.LoadScene(scene.ToString());
     }

@@ -23,7 +23,7 @@ public static class FriendlySummoner {
         PlayerPrefs.Save();
         if (currentHealth < 0) {
             LevelManager.isAlive = false;
-            SceneLoader.LoadScene(SceneLoader.Scene.GameOver);
+            SceneLoader.LoadScene(Scene.GameOver);
         }
     }
 

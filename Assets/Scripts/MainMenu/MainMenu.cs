@@ -5,13 +5,13 @@ public class MainMenu : MonoBehaviour {
     public GameObject achievements;
     public void StartNewGame() {
         DeleteStoredValues();
-        SceneLoader.LoadScene(SceneLoader.Scene.SummonerSelector);
+        SceneLoader.LoadScene(Scene.SummonerSelector);
     }
 
     public void ContinueGame() {
         ItemManager.LoadAvailableItems();
         ContinueManager.LoadSummoner();
-        SceneLoader.LoadScene(SceneLoader.Scene.Map);
+        SceneLoader.LoadScene(Scene.Map);
     }
 
     public void ExitGame() {
@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void LoadCredits() {
-        SceneLoader.LoadScene(SceneLoader.Scene.Credits);
+        SceneLoader.LoadScene(Scene.Credits);
     }
 
     public void ToggleCollection() {

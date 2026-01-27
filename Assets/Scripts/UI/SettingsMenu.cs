@@ -55,6 +55,6 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     public void GoToMainMenu() {
-        SceneLoader.LoadScene(SceneLoader.Scene.MainMenu);
+        SceneLoader.LoadScene(Scene.MainMenu);
     }
 }

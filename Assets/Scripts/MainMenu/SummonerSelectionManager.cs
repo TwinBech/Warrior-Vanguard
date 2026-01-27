@@ -112,7 +112,7 @@ public class SummonerSelectionManager : MonoBehaviour {
 
         // StartingDecks.SetStartingDeck(selectedSummoner.title, card);
         ItemManager.InitAvailableItems();
-        SceneLoader.LoadScene(SceneLoader.Scene.Map);
+        SceneLoader.LoadScene(Scene.Map);
     }
 
     public void ToggleSummonerSelectionPanel(bool shouldShow) {
@@ -120,7 +120,7 @@ public class SummonerSelectionManager : MonoBehaviour {
     }
 
     public void ReturnToMainMenu() {
-        SceneLoader.LoadScene(SceneLoader.Scene.MainMenu);
+        SceneLoader.LoadScene(Scene.MainMenu);
     }
 
     public void ResetLevelsClicked() {

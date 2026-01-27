@@ -1,9 +1,3 @@
-public enum TileType {
-    None,
-    Battlefield,
-    MiniBoss,
-    Boss,
-    Shop,
-    Event,
-    Campfire
+public enum ItemRarity {
+    None, Normal, Special, Boss
 }

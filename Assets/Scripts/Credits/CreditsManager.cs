@@ -19,6 +19,6 @@ public class CreditsManager : MonoBehaviour {
     }
 
     public void LoadMainMenu() {
-        SceneLoader.LoadScene(SceneLoader.Scene.MainMenu);
+        SceneLoader.LoadScene(Scene.MainMenu);
     }
 }

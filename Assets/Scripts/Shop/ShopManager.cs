@@ -170,6 +170,6 @@ public class ShopManager : MonoBehaviour {
         PlayerPrefs.DeleteKey(shopCardsKey);
         PlayerPrefs.DeleteKey(shopItemsKey);
         TileCompleter.MarkTileAsCompleted();
-        SceneLoader.LoadScene(SceneLoader.Scene.Map);
+        SceneLoader.LoadScene(Scene.Map);
     }
 }

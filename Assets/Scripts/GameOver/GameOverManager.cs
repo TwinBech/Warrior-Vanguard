@@ -83,10 +83,10 @@ public class GameOver : MonoBehaviour {
         levelUpPanel.SetActive(false);
         if (ExperienceManager.GetTempExperience() > 0) {
         }
-            UpdateExpAnimation();
+        UpdateExpAnimation();
     }
 
     public void LoadMainMenu() {
-        SceneLoader.LoadScene(SceneLoader.Scene.MainMenu);
+        SceneLoader.LoadScene(Scene.MainMenu);
     }
 }
