@@ -11,19 +11,11 @@ public class MapTile : MonoBehaviour {
     public TileType tileType;
     public int level = 1;
     public Vector2 gridIndex;
-    float fadeTime = 1f;
 
     private void Start() {
-        transform.localScale = new(0f, 0f);
         tileButton = GetComponent<Button>();
         UpdateTileAccess();
         tileButton.onClick.AddListener(TileClicked);
-    }
-
-    void Update() {
-        if (transform.localScale.x < 1) {
-            transform.localScale = new(transform.localScale.x + (Time.deltaTime / fadeTime), transform.localScale.y + (Time.deltaTime / fadeTime));
-        }
     }
 
     public void SetUnlocked(bool state) {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,10 +12,10 @@ public class TileManager : MonoBehaviour {
     public MapTile currentTile;
     public GameObject mapTilePrefab;
     public GameObject mapConnectorPrefab;
-    float spawnDelay = 0.2f;
 
     private void Start() {
-        StartCoroutine(CreateMapTiles());
+        CreateMapTiles();
+        UpdateTileAccess();
     }
 
     private void UpdateTileAccess() {
@@ -24,6 +23,7 @@ public class TileManager : MonoBehaviour {
 
         for (int y = 0; y < mapTiles.Count; y++) {
             for (int x = 0; x < mapTiles[y].Count; x++) {
+
 
                 bool isCompleted = PlayerPrefs.GetInt($"TileCompleted_{y}-{x}", 0) == 1;
                 bool isLastCompleted = PlayerPrefs.GetInt($"LastCompleted_{y}-{x}", 0) == 1;
@@ -79,7 +79,7 @@ public class TileManager : MonoBehaviour {
         return mapTileObject;
     }
 
-    private IEnumerator CreateStartTiles(int y) {
+    private void CreateStartTiles(int y) {
         for (int x = 0; x < 3; x++) {
             Vector2 tilePos = new(-480 + x * 480, 200);
             GameObject mapTileObject = CreateMapTile(tilePos, new(x, y), TileType.Event);
@@ -91,12 +91,11 @@ public class TileManager : MonoBehaviour {
             if (TileCompleter.currentTileIndex == null) {
                 mapTile.SetUnlocked(true);
             }
-            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
     // Can split the path into 1 or 2 parents
-    private IEnumerator CreateSplitTiles(int y, bool guaranteedSplit, bool largeGapBetweenParents, TileType tileType) {
+    private void CreateSplitTiles(int y, bool guaranteedSplit, bool largeGapBetweenParents, TileType tileType) {
         foreach (var childMapTile in mapTiles[y - 1]) {
             int nParents = PlayerPrefs.HasKey($"SplitTilesKey_{y - 1}")
                 ? PlayerPrefs.GetInt($"SplitTilesKey_{y - 1}")
@@ -117,12 +116,11 @@ public class TileManager : MonoBehaviour {
 
                 CreateMapConnector(parentMapTile, childMapTile);
             }
-            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
     // Can merge with the neighbor tile to share the parent instead of having 1 each
-    private IEnumerator CreateMergeTiles(int y, bool guaranteedMerge, TileType tileType) {
+    private void CreateMergeTiles(int y, bool guaranteedMerge, TileType tileType) {
         for (int i = 0; i < mapTiles[y - 1].Count; i++) {
             MapTile childMapTile = mapTiles[y - 1][i];
 
@@ -157,7 +155,6 @@ public class TileManager : MonoBehaviour {
 
                 CreateMapConnector(parentMapTile, childMapTile);
             }
-            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
@@ -195,33 +192,33 @@ public class TileManager : MonoBehaviour {
         mapConnector.GetComponent<RectTransform>().sizeDelta = new Vector2(150, posDiff.magnitude - 100) * 4;
     }
 
-    private IEnumerator CreateMapTiles() {
+    private void CreateMapTiles() {
         for (int y = 0; y < 7; y++) {
             mapTiles.Add(new List<MapTile>());
+
             switch (y) {
                 case 0:
-                    yield return StartCoroutine(CreateStartTiles(y));
+                    CreateStartTiles(y);
                     break;
                 case 1:
-                    yield return StartCoroutine(CreateSplitTiles(y, true, true, TileType.Campfire));
+                    CreateSplitTiles(y, true, true, TileType.Campfire);
                     break;
                 case 2:
-                    yield return StartCoroutine(CreateMergeTiles(y, false, TileType.Battlefield));
+                    CreateMergeTiles(y, false, TileType.Battlefield);
                     break;
                 case 3:
-                    yield return StartCoroutine(CreateSplitTiles(y, false, false, TileType.Event));
+                    CreateSplitTiles(y, false, false, TileType.Event);
                     break;
                 case 4:
-                    yield return StartCoroutine(CreateMergeTiles(y, false, TileType.Battlefield));
+                    CreateMergeTiles(y, false, TileType.Battlefield);
                     break;
                 case 5:
-                    yield return StartCoroutine(CreateMergeTiles(y, true, TileType.Shop));
+                    CreateMergeTiles(y, true, TileType.Shop);
                     break;
                 case 6:
                     CreateBossTile(y);
                     break;
             }
         }
-        UpdateTileAccess();
     }
 }
