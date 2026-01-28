@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6a97a3bdf2a8c0e49ac8e989daab34f4
+guid: d22c090a1324c964b9272e24f8c64d1c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1362917667055565020
-    second: 259273-baby-boss-le-nouveau-film-d-animation-de-dreamworks_0
+      213: -1151905075149521417
+    second: Shop_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 259273-baby-boss-le-nouveau-film-d-animation-de-dreamworks_0
+      name: Shop_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
-        width: 640
-        height: 640
+        width: 755
+        height: 760
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cd873faa56e0ae210800000000000000
-      internalID: 1362917667055565020
+      spriteID: 7fd3ebcef6c9300f0800000000000000
+      internalID: -1151905075149521417
       vertices: []
       indices: 
       edges: []
@@ -147,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      259273-baby-boss-le-nouveau-film-d-animation-de-dreamworks_0: 1362917667055565020
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

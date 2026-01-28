@@ -20,7 +20,7 @@ public class MapTile : MonoBehaviour {
 
     public void SetUnlocked(bool state) {
         isUnlocked = state;
-        tileButton.interactable = state;
+        UpdateTileAccess();
     }
 
     public void MarkAsCompleted(bool state) {
@@ -37,6 +37,9 @@ public class MapTile : MonoBehaviour {
 
     public void UpdateTileAccess() {
         tileButton.interactable = isUnlocked;
+        if (isUnlocked) {
+            transform.localScale = new(1.25f, 1.25f);
+        }
     }
 
     private void TileClicked() {
