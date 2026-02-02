@@ -4,13 +4,13 @@ public class Centoffer {
             title = GetType().Name,
             levelUnlocked = 1,
             cost = new int[] { 3, 3 },
-            strength = new int[] { 4, 5 },
-            health = new int[] { 1, 2 },
+            strength = new int[] { 2, 3 },
+            health = new int[] { 7, 8 },
             speed = 4,
-            range = 4,
+            range = 2,
             damageType = DamageType.Physical,
             race = Race.Centaur,
-            rarity = CardRarity.Rare,
+            rarity = CardRarity.Common,
             genre = Genre.Elves,
         };
         for (int i = 0; i < 2; i++) {

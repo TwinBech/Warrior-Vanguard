@@ -1,25 +1,25 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-public class Burning {
+using UnityEngine;
+public class FireItUp {
     public string GetDescription(WarriorStats stats) {
         if (GetValue(stats) == 0) return "";
-        return $"{Keyword.Overturn}: Take {GetValue(stats)} magical damage and lose one Burning stack";
+        return $"{Keyword.Summon}: Apply {GetValue(stats)} Burning to all enemies";
     }
 
-    public async Task<bool> TriggerOverturn(Warrior target, GridManager gridManager) {
-        if (GetValue(target.stats) > 0) {
-            await target.TakeDamage(null, GetValue(target.stats), DamageType.Magical, DamageSource.Burning);
-
-            List<Warrior> enemies = gridManager.GetEnemies(target.stats.alignment);
-            List<Warrior> enemiesWithRIsingTemperature = enemies.Where(enemy => enemy.stats.ability.risingTemperature.GetValue(enemy.stats)).ToList();
-            if (enemiesWithRIsingTemperature.Count > 0) {
-                target.stats.ability.burning.Add(enemiesWithRIsingTemperature.Count);
-            } else {
-                target.stats.ability.burning.Add(-1);
+    public async Task<bool> TriggerSummon(Warrior dealer, GridManager gridManager, FloatingText floatingText) {
+        if (GetValue(dealer.stats) > 0) {
+            List<Warrior> enemies = gridManager.GetEnemies(GameManager.turn);
+            List<Task> asyncFunctions = new();
+            foreach (Warrior enemy in enemies) {
+                if (enemy.stats.GetStrength() > 0) {
+                    enemy.stats.ability.burning.Add(GetValue(dealer.stats));
+                    enemy.UpdateWarriorUI();
+                    asyncFunctions.Add(floatingText.CreateFloatingText(enemy.transform, $"{GetValue(dealer.stats)}", ColorEnum.White, true, Resources.Load<Sprite>("Images/Icons/Enflame")));
+                }
             }
-            target.UpdateWarriorUI();
+            await Task.WhenAll(asyncFunctions);
             return true;
         }
         return false;
@@ -62,5 +62,5 @@ public class Burning {
         return abilityName;
     }
 
-    public BuffType buffType = BuffType.Debuff;
+    public BuffType buffType = BuffType.None;
 }

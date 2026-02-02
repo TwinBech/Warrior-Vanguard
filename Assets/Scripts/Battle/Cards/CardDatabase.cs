@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 public static class CardDatabase {
     public static List<WarriorStats> allCards = new() {
         new Mario().GetStats(),
+        new InfernoHeater().GetStats(),
         new HydricTheConsumer().GetStats(),
         new Haven().GetStats(),
         new ObeliskSiphoner().GetStats(),
@@ -57,7 +57,7 @@ public static class CardDatabase {
         new FirePortal().GetStats(),
         new SummonAid().GetStats(),
         new Reinforcement().GetStats(),
-        new Centarcher().GetStats(),
+        new Centaurus().GetStats(),
         new MoltenBlade().GetStats(),
         new Berserk().GetStats(),
         new Vampirism().GetStats(),
@@ -191,7 +191,6 @@ public static class CardDatabase {
         new BoneDragon().GetStats(),
         new Reanimate().GetStats(),
         new Centaura().GetStats(),
-        new CentaurWarrior().GetStats(),
         new GreedyDwarf().GetStats(),
         new MultibowNovice().GetStats(),
         new LongbowGrandmaster().GetStats(),

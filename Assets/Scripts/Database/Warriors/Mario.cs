@@ -16,7 +16,8 @@ public class Mario : WarriorStats {
         }
 
         WarriorAbility ability = stats.ability;
-        ability.enflame.Add();
+        ability.fireItUp.Add(2);
+        ability.risingTemperature.Add();
 
         return stats;
     }

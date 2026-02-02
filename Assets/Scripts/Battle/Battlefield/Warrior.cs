@@ -302,7 +302,7 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
         List<Task> asyncFunctions = new();
 
-        if (!stats.ability.refuge.GetValue(stats) && !dealer.stats.ability.enflame.GetValue(dealer.stats)) {
+        if (!stats.ability.refuge.GetValue(stats) && dealer && !dealer.stats.ability.enflame.GetValue(dealer.stats)) {
             List<Warrior> friends = gridManager.GetFriends(stats.alignment, this);
             foreach (var friend in friends) {
                 if (friend.stats.ability.refuge.GetValue(friend.stats)) {
@@ -536,7 +536,7 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         // Debuffs should trigger last
         stats.ability.seduced.Trigger(this);
         await stats.ability.poisoned.TriggerOverturn(this);
-        await stats.ability.burning.TriggerOverturn(this);
+        await stats.ability.burning.TriggerOverturn(this, gridManager);
         await stats.ability.strengthenByFireAbility.TriggerOverturn(this);
 
         if (stats.tempStrength != 0) {

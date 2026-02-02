@@ -132,6 +132,8 @@ public class WarriorAbility {
     public Purge purge = new();
     public UnstableEnergy unstableEnergy = new();
     public Refuge refuge = new();
+    public FireItUp fireItUp = new();
+    public RisingTemperature risingTemperature = new();
 
     // Buffs and Debuffs
     public Poisoned poisoned = new();

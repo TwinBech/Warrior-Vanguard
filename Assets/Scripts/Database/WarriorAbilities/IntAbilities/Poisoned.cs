@@ -8,7 +8,7 @@ public class Poisoned {
 
     public async Task<bool> TriggerOverturn(Warrior target) {
         if (GetValue(target.stats) > 0) {
-            await target.TakeDamage(target, GetValue(target.stats), DamageType.Magical, DamageSource.Poisoned);
+            await target.TakeDamage(null, GetValue(target.stats), DamageType.Magical, DamageSource.Poisoned);
             return true;
         }
         return false;
