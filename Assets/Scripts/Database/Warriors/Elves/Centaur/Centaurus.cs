@@ -5,7 +5,7 @@ public class Centaurus {
             levelUnlocked = 1,
             cost = new int[] { 6, 6 },
             strength = new int[] { 6, 8 },
-            health = new int[] { 9, 11 },
+            health = new int[] { 8, 10 },
             speed = 4,
             range = 2,
             damageType = DamageType.Physical,
@@ -19,7 +19,7 @@ public class Centaurus {
 
         WarriorAbility ability = stats.ability;
         ability.hitAndRun.Add();
-        ability.joust.Add();
+        ability.overwhelm.Add();
 
         return stats;
     }

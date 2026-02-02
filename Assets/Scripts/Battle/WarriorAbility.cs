@@ -78,6 +78,7 @@ public class WarriorAbility {
     public SoulCollect soulCollect = new();
     public SoulImbue soulImbue = new();
     public StealEssence stealEssence = new();
+    public Overwhelm overwhelm = new();
 
     // Unique abilities
     public HydraSplit hydraSplit = new();

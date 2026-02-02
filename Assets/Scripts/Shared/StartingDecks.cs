@@ -47,7 +47,7 @@ public static class StartingDecks {
                 AddCardToDeck(new CoalbeardSketcher().GetStats(), card);
                 AddCardToDeck(new CoalbeardSketcher().GetStats(), card);
                 AddCardToDeck(new Watchtower().GetStats(), card);
-                AddCardToDeck(new CentaurWarrior().GetStats(), card);
+                AddCardToDeck(new Centoffer().GetStats(), card);
                 AddCardToDeck(new ClubCrasher().GetStats(), card);
                 AddCardToDeck(new WoodElf().GetStats(), card);
                 AddCardToDeck(new WoodElf().GetStats(), card);
@@ -64,7 +64,7 @@ public static class StartingDecks {
                 AddCardToDeck(new CoalbeardSketcher().GetStats(), card);
                 AddCardToDeck(new CoalbeardSketcher().GetStats(), card);
                 AddCardToDeck(new Watchtower().GetStats(), card);
-                AddCardToDeck(new CentaurWarrior().GetStats(), card);
+                AddCardToDeck(new Centoffer().GetStats(), card);
                 AddCardToDeck(new ClubCrasher().GetStats(), card);
                 AddCardToDeck(new WoodElf().GetStats(), card);
                 AddCardToDeck(new WoodElf().GetStats(), card);

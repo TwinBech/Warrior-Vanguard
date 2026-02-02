@@ -326,11 +326,12 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         }
 
         if (damage > 0) {
+            int excessDamage = damage - stats.GetHealthCurrent();
             stats.AddHealthCurrent(-damage);
             UpdateWarriorUI();
 
             if (stats.GetHealthCurrent() <= 0) {
-                asyncFunctions.Add(Die(dealer));
+                asyncFunctions.Add(Die(dealer, excessDamage));
             } else {
                 stats.ability.vengeance.TriggerDamaged(this);
             }
@@ -408,7 +409,7 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         }
     }
 
-    public async Task Die(Warrior dealer) {
+    public async Task Die(Warrior dealer, int excessDamage = 0) {
         if (stats.ability.cheatDeath.TriggerDamaged(this)) return;
 
         if (isDying) return;
@@ -467,6 +468,7 @@ public class Warrior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
             asyncFunctions.Add(dealer.stats.ability.lifeInDeath.TriggerKill(dealer, gridManager));
             asyncFunctions.Add(dealer.stats.ability.dragonRecruiter.TriggerKill(dealer, dealer.hand));
             asyncFunctions.Add(dealer.stats.ability.stealEssence.TriggerKill(dealer, dealer.deck));
+            asyncFunctions.Add(dealer.stats.ability.overwhelm.TriggerKill(dealer, summoner, excessDamage, gridManager));
         }
 
         gameObject.SetActive(false);
