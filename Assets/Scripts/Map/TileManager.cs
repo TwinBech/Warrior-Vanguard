@@ -12,6 +12,7 @@ public class TileManager : MonoBehaviour {
     public MapTile currentTile;
     public GameObject mapTilePrefab;
     public GameObject mapConnectorPrefab;
+    private int floorsPerSector = 11;
 
     private void Start() {
         CreateMapTiles();
@@ -79,10 +80,10 @@ public class TileManager : MonoBehaviour {
         return mapTileObject;
     }
 
-    private void CreateStartTiles(int y) {
+    private void CreateStartTiles(int sector, int y) {
         for (int x = 0; x < 3; x++) {
-            Vector2 tilePos = new(-480 + x * 480, 200);
-            GameObject mapTileObject = CreateMapTile(tilePos, new(x, y), TileType.Event);
+            Vector2 tilePos = new(-480 + x * 480, 200 + (sector * 2300));
+            GameObject mapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), TileType.Event);
 
             RectTransform rect = mapTileObject.GetComponent<RectTransform>();
             rect.anchoredPosition = tilePos;
@@ -94,13 +95,14 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    private void CreateStraightTiles(int y, TileType tileType) {
-        for (int x = 0; x < mapTiles[y - 1].Count; x++) {
-            MapTile childMapTile = mapTiles[y - 1][x];
+    private void CreateStraightTiles(int sector, int y, TileType tileType) {
+        int yBelow = y - 1 + (sector * floorsPerSector);
+        for (int x = 0; x < mapTiles[yBelow].Count; x++) {
+            MapTile childMapTile = mapTiles[yBelow][x];
             {
                 Vector2 tilePos = new(childMapTile.transform.position.x, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -111,13 +113,14 @@ public class TileManager : MonoBehaviour {
     }
 
     // Can split the path into 1 or 2 parents
-    private void CreateSplitTiles(int y, bool guaranteedSplit, bool largeGapBetweenParents, TileType tileType) {
-        for (int x = 0; x < mapTiles[y - 1].Count; x++) {
-            MapTile childMapTile = mapTiles[y - 1][x];
-            int nParents = PlayerPrefs.HasKey($"SplitTilesKey_{y - 1}_{x}")
-                ? PlayerPrefs.GetInt($"SplitTilesKey_{y - 1}_{x}")
+    private void CreateSplitTiles(int sector, int y, TileType tileType, bool guaranteedSplit, bool largeGapBetweenParents) {
+        int yBelow = y - 1 + (sector * floorsPerSector);
+        for (int x = 0; x < mapTiles[yBelow].Count; x++) {
+            MapTile childMapTile = mapTiles[yBelow][x];
+            int nParents = PlayerPrefs.HasKey($"SplitTilesKey_{yBelow}_{x}")
+                ? PlayerPrefs.GetInt($"SplitTilesKey_{yBelow}_{x}")
                 : guaranteedSplit ? 2 : Rng.Range(1, 3);
-            PlayerPrefs.SetInt($"SplitTilesKey_{y - 1}_{x}", nParents);
+            PlayerPrefs.SetInt($"SplitTilesKey_{yBelow}_{x}", nParents);
             PlayerPrefs.Save();
 
             for (int i = 0; i < nParents; i++) {
@@ -127,7 +130,7 @@ public class TileManager : MonoBehaviour {
                 int xPos = nParents == 1 ? (int)childMapTile.transform.position.x : (int)childMapTile.transform.position.x + xOffset;
                 Vector2 tilePos = new(xPos, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -138,25 +141,26 @@ public class TileManager : MonoBehaviour {
     }
 
     // Can merge with the neighbor tile to share the parent instead of having 1 each
-    private void CreateMergeTiles(int y, bool guaranteedMerge, TileType tileType) {
-        for (int x = 0; x < mapTiles[y - 1].Count; x++) {
-            MapTile childMapTile = mapTiles[y - 1][x];
+    private void CreateMergeTiles(int sector, int y, TileType tileType, bool guaranteedMerge) {
+        int yBelow = y - 1 + (sector * floorsPerSector);
+        for (int x = 0; x < mapTiles[yBelow].Count; x++) {
+            MapTile childMapTile = mapTiles[yBelow][x];
 
             bool willMergeRight = false;
-            if (x != mapTiles[y - 1].Count - 1) {
-                willMergeRight = PlayerPrefs.HasKey($"MergeTilesKey_{y - 1}_{x}")
-                    ? Convert.ToBoolean(PlayerPrefs.GetInt($"MergeTilesKey_{y - 1}_{x}"))
+            if (x != mapTiles[yBelow].Count - 1) {
+                willMergeRight = PlayerPrefs.HasKey($"MergeTilesKey_{yBelow}_{x}")
+                    ? Convert.ToBoolean(PlayerPrefs.GetInt($"MergeTilesKey_{yBelow}_{x}"))
                     : guaranteedMerge || Rng.Chance(50);
-                PlayerPrefs.SetInt($"MergeTilesKey_{y - 1}_{x}", willMergeRight ? 1 : 0);
+                PlayerPrefs.SetInt($"MergeTilesKey_{yBelow}_{x}", willMergeRight ? 1 : 0);
                 PlayerPrefs.Save();
             }
 
             if (willMergeRight) {
-                MapTile childMapTileNeighbor = mapTiles[y - 1][x + 1];
+                MapTile childMapTileNeighbor = mapTiles[yBelow][x + 1];
                 float xBetween = Math.Abs(childMapTile.transform.position.x - childMapTileNeighbor.transform.position.x) / 2;
                 Vector2 tilePos = new(childMapTile.transform.position.x + xBetween, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType, childMapTileNeighbor.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -168,7 +172,7 @@ public class TileManager : MonoBehaviour {
             } else {
                 Vector2 tilePos = new(childMapTile.transform.position.x, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -178,17 +182,18 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    private void CreateMiniBossTile(int y) {
+    private void CreateMiniBossTile(int sector, int y) {
         float xPosSum = 0;
-        foreach (var childMapTile in mapTiles[y - 1]) {
+        int yBelow = y - 1 + (sector * floorsPerSector);
+        foreach (var childMapTile in mapTiles[yBelow]) {
             xPosSum += childMapTile.transform.position.x;
         }
-        float xPosAverage = xPosSum / mapTiles[y - 1].Count;
+        float xPosAverage = xPosSum / mapTiles[yBelow].Count;
 
-        Vector2 tilePos = new(xPosAverage, mapTiles[y - 1][0].transform.position.y + 300);
-        GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), TileType.MiniBoss);
+        Vector2 tilePos = new(xPosAverage, mapTiles[yBelow][0].transform.position.y + 300);
+        GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), TileType.MiniBoss);
 
-        foreach (var childMapTile in mapTiles[y - 1]) {
+        foreach (var childMapTile in mapTiles[yBelow]) {
             MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
             childMapTile.nextTiles.Add(parentMapTile);
 
@@ -215,43 +220,44 @@ public class TileManager : MonoBehaviour {
     }
 
     private void CreateMapTiles() {
-        for (int y = 0; y < 11; y++) {
-            mapTiles.Add(new List<MapTile>());
-
-            switch (y) {
-                case 0:
-                    CreateStartTiles(y);
-                    break;
-                case 1:
-                    CreateSplitTiles(y, true, true, TileType.Battlefield);
-                    break;
-                case 2:
-                    CreateStraightTiles(y, TileType.None);
-                    break;
-                case 3:
-                    CreateMergeTiles(y, false, TileType.None);
-                    break;
-                case 4:
-                    CreateStraightTiles(y, TileType.None);
-                    break;
-                case 5:
-                    CreateSplitTiles(y, false, false, TileType.None);
-                    break;
-                case 6:
-                    CreateStraightTiles(y, TileType.None);
-                    break;
-                case 7:
-                    CreateMergeTiles(y, true, TileType.None);
-                    break;
-                case 8:
-                    CreateSplitTiles(y, false, false, TileType.None);
-                    break;
-                case 9:
-                    CreateMergeTiles(y, true, TileType.Campfire);
-                    break;
-                case 10:
-                    CreateMiniBossTile(y);
-                    break;
+        for (int sector = 0; sector < 3; sector++) {
+            for (int y = 0; y < floorsPerSector; y++) {
+                mapTiles.Add(new List<MapTile>());
+                switch (y) {
+                    case 0:
+                        CreateStartTiles(sector, y);
+                        break;
+                    case 1:
+                        CreateSplitTiles(sector, y, TileType.Battlefield, true, true);
+                        break;
+                    case 2:
+                        CreateStraightTiles(sector, y, TileType.None);
+                        break;
+                    case 3:
+                        CreateMergeTiles(sector, y, TileType.None, false);
+                        break;
+                    case 4:
+                        CreateStraightTiles(sector, y, TileType.None);
+                        break;
+                    case 5:
+                        CreateSplitTiles(sector, y, TileType.None, false, false);
+                        break;
+                    case 6:
+                        CreateStraightTiles(sector, y, TileType.None);
+                        break;
+                    case 7:
+                        CreateMergeTiles(sector, y, TileType.None, true);
+                        break;
+                    case 8:
+                        CreateSplitTiles(sector, y, TileType.None, false, false);
+                        break;
+                    case 9:
+                        CreateMergeTiles(sector, y, TileType.Campfire, true);
+                        break;
+                    case 10:
+                        CreateMiniBossTile(sector, y);
+                        break;
+                }
             }
         }
     }
