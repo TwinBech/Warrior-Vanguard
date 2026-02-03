@@ -94,22 +94,40 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    private void CreateStraightTiles(int y, TileType tileType) {
+        for (int x = 0; x < mapTiles[y - 1].Count; x++) {
+            MapTile childMapTile = mapTiles[y - 1][x];
+            {
+                Vector2 tilePos = new(childMapTile.transform.position.x, childMapTile.transform.position.y + 200);
+                TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
+
+                MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
+                childMapTile.nextTiles.Add(parentMapTile);
+
+                CreateMapConnector(parentMapTile, childMapTile);
+            }
+        }
+    }
+
     // Can split the path into 1 or 2 parents
     private void CreateSplitTiles(int y, bool guaranteedSplit, bool largeGapBetweenParents, TileType tileType) {
-        foreach (var childMapTile in mapTiles[y - 1]) {
-            int nParents = PlayerPrefs.HasKey($"SplitTilesKey_{y - 1}")
-                ? PlayerPrefs.GetInt($"SplitTilesKey_{y - 1}")
+        for (int x = 0; x < mapTiles[y - 1].Count; x++) {
+            MapTile childMapTile = mapTiles[y - 1][x];
+            int nParents = PlayerPrefs.HasKey($"SplitTilesKey_{y - 1}_{x}")
+                ? PlayerPrefs.GetInt($"SplitTilesKey_{y - 1}_{x}")
                 : guaranteedSplit ? 2 : Rng.Range(1, 3);
-            PlayerPrefs.SetInt($"SplitTilesKey_{y - 1}", nParents);
+            PlayerPrefs.SetInt($"SplitTilesKey_{y - 1}_{x}", nParents);
             PlayerPrefs.Save();
 
-            for (int x = 0; x < nParents; x++) {
+            for (int i = 0; i < nParents; i++) {
                 int xOffset = largeGapBetweenParents ?
-                                -120 + (x * 240) :
-                                -60 + (x * 120);
+                                -120 + (i * 240) :
+                                -60 + (i * 120);
                 int xPos = nParents == 1 ? (int)childMapTile.transform.position.x : (int)childMapTile.transform.position.x + xOffset;
                 Vector2 tilePos = new(xPos, childMapTile.transform.position.y + 200);
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), tileType);
+                TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -121,34 +139,36 @@ public class TileManager : MonoBehaviour {
 
     // Can merge with the neighbor tile to share the parent instead of having 1 each
     private void CreateMergeTiles(int y, bool guaranteedMerge, TileType tileType) {
-        for (int i = 0; i < mapTiles[y - 1].Count; i++) {
-            MapTile childMapTile = mapTiles[y - 1][i];
+        for (int x = 0; x < mapTiles[y - 1].Count; x++) {
+            MapTile childMapTile = mapTiles[y - 1][x];
 
             bool willMergeRight = false;
-            if (i != mapTiles[y - 1].Count - 1) {
-                willMergeRight = PlayerPrefs.HasKey($"MergeTilesKey_{y - 1}_{i}")
-                    ? Convert.ToBoolean(PlayerPrefs.GetInt($"MergeTilesKey_{y - 1}_{i}"))
+            if (x != mapTiles[y - 1].Count - 1) {
+                willMergeRight = PlayerPrefs.HasKey($"MergeTilesKey_{y - 1}_{x}")
+                    ? Convert.ToBoolean(PlayerPrefs.GetInt($"MergeTilesKey_{y - 1}_{x}"))
                     : guaranteedMerge || Rng.Chance(50);
-                PlayerPrefs.SetInt($"MergeTilesKey_{y - 1}_{i}", willMergeRight ? 1 : 0);
+                PlayerPrefs.SetInt($"MergeTilesKey_{y - 1}_{x}", willMergeRight ? 1 : 0);
                 PlayerPrefs.Save();
             }
 
             if (willMergeRight) {
-                MapTile childMapTileNeighbor = mapTiles[y - 1][i + 1];
+                MapTile childMapTileNeighbor = mapTiles[y - 1][x + 1];
                 float xBetween = Math.Abs(childMapTile.transform.position.x - childMapTileNeighbor.transform.position.x) / 2;
                 Vector2 tilePos = new(childMapTile.transform.position.x + xBetween, childMapTile.transform.position.y + 200);
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), tileType);
+                TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType, childMapTileNeighbor.tileType }) : tileType;
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
                 childMapTileNeighbor.nextTiles.Add(parentMapTile);
-                i++;
+                x++;
 
                 CreateMapConnector(parentMapTile, childMapTile);
                 CreateMapConnector(parentMapTile, childMapTileNeighbor);
             } else {
                 Vector2 tilePos = new(childMapTile.transform.position.x, childMapTile.transform.position.y + 200);
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), tileType);
+                TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -158,15 +178,15 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    private void CreateBossTile(int y) {
+    private void CreateMiniBossTile(int y) {
         float xPosSum = 0;
         foreach (var childMapTile in mapTiles[y - 1]) {
             xPosSum += childMapTile.transform.position.x;
         }
         float xPosAverage = xPosSum / mapTiles[y - 1].Count;
 
-        Vector2 tilePos = new(xPosAverage, mapTiles[y - 1][0].transform.position.y + 200);
-        GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), TileType.Boss);
+        Vector2 tilePos = new(xPosAverage, mapTiles[y - 1][0].transform.position.y + 300);
+        GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y), TileType.MiniBoss);
 
         foreach (var childMapTile in mapTiles[y - 1]) {
             MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
@@ -180,8 +200,9 @@ public class TileManager : MonoBehaviour {
         // Just some random math on how to calculate position, rotation and length of each MapConnector
 
         Vector2 posDiff = parentMapTile.transform.position - childMapTile.transform.position;
-        float xBetween = childMapTile.transform.position.x + (posDiff.x / 2);
-        float yBetween = childMapTile.transform.position.y + (posDiff.y / 2);
+        float posDiffDivision = parentMapTile.tileType == TileType.MiniBoss ? 2.5f : 2;
+        float xBetween = childMapTile.transform.position.x + (posDiff.x / posDiffDivision);
+        float yBetween = childMapTile.transform.position.y + (posDiff.y / posDiffDivision);
         Vector2 mapConnectorPos = new(xBetween, yBetween);
 
         float angleX = Mathf.Atan2(posDiff.y, posDiff.x) * Mathf.Rad2Deg;
@@ -189,11 +210,12 @@ public class TileManager : MonoBehaviour {
         Quaternion rotation = Quaternion.Euler(0f, 0f, zRotation);
 
         GameObject mapConnector = Instantiate(mapConnectorPrefab, mapConnectorPos, rotation, scrollViewPanel);
-        mapConnector.GetComponent<RectTransform>().sizeDelta = new Vector2(150, posDiff.magnitude - 100) * 4;
+        int magnitudeReduction = parentMapTile.tileType == TileType.MiniBoss ? 200 : 120;
+        mapConnector.GetComponent<RectTransform>().sizeDelta = new Vector2(150, posDiff.magnitude - magnitudeReduction) * 4;
     }
 
     private void CreateMapTiles() {
-        for (int y = 0; y < 7; y++) {
+        for (int y = 0; y < 11; y++) {
             mapTiles.Add(new List<MapTile>());
 
             switch (y) {
@@ -201,22 +223,34 @@ public class TileManager : MonoBehaviour {
                     CreateStartTiles(y);
                     break;
                 case 1:
-                    CreateSplitTiles(y, true, true, TileType.Campfire);
+                    CreateSplitTiles(y, true, true, TileType.Battlefield);
                     break;
                 case 2:
-                    CreateMergeTiles(y, false, TileType.Battlefield);
+                    CreateStraightTiles(y, TileType.None);
                     break;
                 case 3:
-                    CreateSplitTiles(y, false, false, TileType.Event);
+                    CreateMergeTiles(y, false, TileType.None);
                     break;
                 case 4:
-                    CreateMergeTiles(y, false, TileType.Battlefield);
+                    CreateStraightTiles(y, TileType.None);
                     break;
                 case 5:
-                    CreateMergeTiles(y, true, TileType.Shop);
+                    CreateSplitTiles(y, false, false, TileType.None);
                     break;
                 case 6:
-                    CreateBossTile(y);
+                    CreateStraightTiles(y, TileType.None);
+                    break;
+                case 7:
+                    CreateMergeTiles(y, true, TileType.None);
+                    break;
+                case 8:
+                    CreateSplitTiles(y, false, false, TileType.None);
+                    break;
+                case 9:
+                    CreateMergeTiles(y, true, TileType.Campfire);
+                    break;
+                case 10:
+                    CreateMiniBossTile(y);
                     break;
             }
         }

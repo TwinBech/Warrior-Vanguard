@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,6 +41,29 @@ public class MapTile : MonoBehaviour {
         if (isUnlocked) {
             transform.localScale = new(1.25f, 1.25f);
         }
+        if (tileType == TileType.MiniBoss) {
+            transform.localScale = new(3, 3);
+        }
+    }
+
+    public static TileType GetRandomTileType(List<TileType> childTileTypes) {
+        List<TileType> randomTypes = new() {
+            TileType.Battlefield,
+            TileType.Battlefield,
+            TileType.Battlefield,
+            TileType.Battlefield,
+            TileType.Event,
+            TileType.Event,
+            TileType.Event,
+            TileType.Campfire,
+            TileType.Shop };
+        foreach (var childTileType in childTileTypes) {
+            if (childTileType != TileType.Battlefield) {
+                randomTypes = randomTypes.Where(type => type != childTileType).ToList();
+            }
+        }
+
+        return Rng.Entry(randomTypes);
     }
 
     private void TileClicked() {
