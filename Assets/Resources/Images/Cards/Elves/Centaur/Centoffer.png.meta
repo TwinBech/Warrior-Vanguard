@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      CentaurWarrior_0: 7074244693025174430
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

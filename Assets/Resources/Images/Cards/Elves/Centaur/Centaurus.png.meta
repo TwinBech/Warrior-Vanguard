@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 88ff8613ec4fa014d98a03bd9b345fd3
+guid: b057a5f9de9ffca4097a730f7ef55bc4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6110454033996024682
-    second: Centarcher_0
+      213: -9161656381991908952
+    second: Centaurus_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Centarcher_0
+      name: Centaurus_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a6b8fa0c191bcc450800000000000000
-      internalID: 6110454033996024682
+      spriteID: 8a98e25af024bd080800000000000000
+      internalID: -9161656381991908952
       vertices: []
       indices: 
       edges: []
