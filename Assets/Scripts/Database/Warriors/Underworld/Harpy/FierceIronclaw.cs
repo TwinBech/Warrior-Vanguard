@@ -5,12 +5,12 @@ public class FierceIronclaw {
             levelUnlocked = 1,
             cost = new int[] { 7, 7 },
             strength = new int[] { 5, 6 },
-            health = new int[] { 8, 10 },
+            health = new int[] { 12, 15 },
             speed = 2,
             range = 2,
             damageType = DamageType.Physical,
             race = Race.Harpy,
-            rarity = CardRarity.Legendary,
+            rarity = CardRarity.Rare,
             genre = Genre.Underworld,
         };
         for (int i = 0; i < 2; i++) {
@@ -20,7 +20,7 @@ public class FierceIronclaw {
         WarriorAbility ability = stats.ability;
         ability.flying.Add();
         ability.backstab.Add();
-        ability.hitAndRun.Add();
+        ability.bleed.Add();
 
         return stats;
     }

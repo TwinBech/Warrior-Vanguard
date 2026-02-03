@@ -3,9 +3,9 @@ public class HappyHarpy {
         WarriorStats stats = new() {
             title = GetType().Name,
             levelUnlocked = 1,
-            cost = new int[] { 3, 3 },
-            strength = new int[] { 4, 5 },
-            health = new int[] { 3, 4 },
+            cost = new int[] { 1, 1 },
+            strength = new int[] { 1, 2 },
+            health = new int[] { 2, 2 },
             speed = 2,
             range = 2,
             damageType = DamageType.Physical,
@@ -19,6 +19,7 @@ public class HappyHarpy {
 
         WarriorAbility ability = stats.ability;
         ability.flying.Add();
+        ability.backstab.Add();
 
         return stats;
     }
