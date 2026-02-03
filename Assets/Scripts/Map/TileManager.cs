@@ -82,16 +82,24 @@ public class TileManager : MonoBehaviour {
 
     private void CreateStartTiles(int sector, int y) {
         for (int x = 0; x < 3; x++) {
-            Vector2 tilePos = new(-480 + x * 480, 200 + (sector * 2300));
+            Vector2 tilePos = new(-480 + x * 480, 200 + (sector * 2400));
             GameObject mapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), TileType.Event);
 
             RectTransform rect = mapTileObject.GetComponent<RectTransform>();
             rect.anchoredPosition = tilePos;
 
-            MapTile mapTile = mapTileObject.GetComponent<MapTile>();
-            if (TileCompleter.currentTileIndex == null) {
-                mapTile.SetUnlocked(true);
+            MapTile parentMapTile = mapTileObject.GetComponent<MapTile>();
+
+            if (sector == 0) {
+                if (TileCompleter.currentTileIndex == null) {
+                    parentMapTile.SetUnlocked(true);
+                }
+            } else {
+                int yBelow = y - 1 + (sector * floorsPerSector);
+                MapTile childMapTile = mapTiles[yBelow][0];
+                CreateMapConnector(parentMapTile, childMapTile);
             }
+
         }
     }
 
@@ -183,14 +191,8 @@ public class TileManager : MonoBehaviour {
     }
 
     private void CreateMiniBossTile(int sector, int y) {
-        float xPosSum = 0;
         int yBelow = y - 1 + (sector * floorsPerSector);
-        foreach (var childMapTile in mapTiles[yBelow]) {
-            xPosSum += childMapTile.transform.position.x;
-        }
-        float xPosAverage = xPosSum / mapTiles[yBelow].Count;
-
-        Vector2 tilePos = new(xPosAverage, mapTiles[yBelow][0].transform.position.y + 300);
+        Vector2 tilePos = new(960, mapTiles[yBelow][0].transform.position.y + 300);
         GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), TileType.MiniBoss);
 
         foreach (var childMapTile in mapTiles[yBelow]) {
@@ -203,9 +205,14 @@ public class TileManager : MonoBehaviour {
 
     private void CreateMapConnector(MapTile parentMapTile, MapTile childMapTile) {
         // Just some random math on how to calculate position, rotation and length of each MapConnector
+        float posDiffDivision = 2;
+        if (parentMapTile.tileType == TileType.MiniBoss) {
+            posDiffDivision = 2.5f;
+        } else if (childMapTile.tileType == TileType.MiniBoss) {
+            posDiffDivision = 1.7f;
+        }
 
         Vector2 posDiff = parentMapTile.transform.position - childMapTile.transform.position;
-        float posDiffDivision = parentMapTile.tileType == TileType.MiniBoss ? 2.5f : 2;
         float xBetween = childMapTile.transform.position.x + (posDiff.x / posDiffDivision);
         float yBetween = childMapTile.transform.position.y + (posDiff.y / posDiffDivision);
         Vector2 mapConnectorPos = new(xBetween, yBetween);
@@ -215,7 +222,13 @@ public class TileManager : MonoBehaviour {
         Quaternion rotation = Quaternion.Euler(0f, 0f, zRotation);
 
         GameObject mapConnector = Instantiate(mapConnectorPrefab, mapConnectorPos, rotation, scrollViewPanel);
-        int magnitudeReduction = parentMapTile.tileType == TileType.MiniBoss ? 200 : 120;
+        int magnitudeReduction = 120;
+        if (parentMapTile.tileType == TileType.MiniBoss) {
+            magnitudeReduction = 200;
+        } else if (childMapTile.tileType == TileType.MiniBoss) {
+            magnitudeReduction = 200;
+        }
+
         mapConnector.GetComponent<RectTransform>().sizeDelta = new Vector2(150, posDiff.magnitude - magnitudeReduction) * 4;
     }
 
