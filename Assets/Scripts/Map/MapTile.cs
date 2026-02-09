@@ -38,11 +38,12 @@ public class MapTile : MonoBehaviour {
 
     public void UpdateTileAccess() {
         tileButton.interactable = isUnlocked;
-        if (isUnlocked) {
-            transform.localScale = new(1.25f, 1.25f);
-        }
         if (tileType == TileType.MiniBoss) {
             transform.localScale = new(3, 3);
+        } else if (tileType == TileType.Boss) {
+            transform.localScale = new(6, 6);
+        } else if (isUnlocked) {
+            transform.localScale = new(1.25f, 1.25f);
         }
     }
 

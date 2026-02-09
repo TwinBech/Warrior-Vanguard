@@ -24,8 +24,6 @@ public class TileManager : MonoBehaviour {
 
         for (int y = 0; y < mapTiles.Count; y++) {
             for (int x = 0; x < mapTiles[y].Count; x++) {
-
-
                 bool isCompleted = PlayerPrefs.GetInt($"TileCompleted_{y}-{x}", 0) == 1;
                 bool isLastCompleted = PlayerPrefs.GetInt($"LastCompleted_{y}-{x}", 0) == 1;
 
@@ -82,7 +80,7 @@ public class TileManager : MonoBehaviour {
 
     private void CreateStartTiles(int sector, int y) {
         for (int x = 0; x < 3; x++) {
-            Vector2 tilePos = new(-480 + x * 480, 200 + (sector * 2400));
+            Vector2 tilePos = new(-480 + x * 480, 200 + (sector * (floorsPerSector * 200 + 200)));
             GameObject mapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), TileType.Event);
 
             RectTransform rect = mapTileObject.GetComponent<RectTransform>();
@@ -110,7 +108,7 @@ public class TileManager : MonoBehaviour {
             {
                 Vector2 tilePos = new(childMapTile.transform.position.x, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -138,7 +136,7 @@ public class TileManager : MonoBehaviour {
                 int xPos = nParents == 1 ? (int)childMapTile.transform.position.x : (int)childMapTile.transform.position.x + xOffset;
                 Vector2 tilePos = new(xPos, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -168,7 +166,7 @@ public class TileManager : MonoBehaviour {
                 float xBetween = Math.Abs(childMapTile.transform.position.x - childMapTileNeighbor.transform.position.x) / 2;
                 Vector2 tilePos = new(childMapTile.transform.position.x + xBetween, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType, childMapTileNeighbor.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -180,7 +178,7 @@ public class TileManager : MonoBehaviour {
             } else {
                 Vector2 tilePos = new(childMapTile.transform.position.x, childMapTile.transform.position.y + 200);
                 TileType mapTileType = tileType == TileType.None ? MapTile.GetRandomTileType(new() { childMapTile.tileType }) : tileType;
-                GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), mapTileType);
+                GameObject parentMapTileObject = CreateMapTile(tilePos, new(x, y + (sector * floorsPerSector)), mapTileType);
 
                 MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
                 childMapTile.nextTiles.Add(parentMapTile);
@@ -190,10 +188,11 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    private void CreateMiniBossTile(int sector, int y) {
+    private void CreateBossTile(int sector, int y) {
         int yBelow = y - 1 + (sector * floorsPerSector);
-        Vector2 tilePos = new(960, mapTiles[yBelow][0].transform.position.y + 300);
-        GameObject parentMapTileObject = CreateMapTile(tilePos, new(mapTiles[y].Count, y + (sector * floorsPerSector)), TileType.MiniBoss);
+        TileType tileType = sector == 2 ? TileType.Boss : TileType.MiniBoss;
+        Vector2 tilePos = new(960, mapTiles[yBelow][0].transform.position.y + (tileType == TileType.Boss ? 500 : 300));
+        GameObject parentMapTileObject = CreateMapTile(tilePos, new(0, y + (sector * floorsPerSector)), tileType);
 
         foreach (var childMapTile in mapTiles[yBelow]) {
             MapTile parentMapTile = parentMapTileObject.GetComponent<MapTile>();
@@ -203,13 +202,16 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    // Just some random math on how to calculate position, rotation and length of each MapConnector
     private void CreateMapConnector(MapTile parentMapTile, MapTile childMapTile) {
-        // Just some random math on how to calculate position, rotation and length of each MapConnector
+        // Higher posDiffDivision number moves the connector's center point closer to the childMapTile
         float posDiffDivision = 2;
         if (parentMapTile.tileType == TileType.MiniBoss) {
             posDiffDivision = 2.5f;
         } else if (childMapTile.tileType == TileType.MiniBoss) {
             posDiffDivision = 1.7f;
+        } else if (parentMapTile.tileType == TileType.Boss) {
+            posDiffDivision = 3f;
         }
 
         Vector2 posDiff = parentMapTile.transform.position - childMapTile.transform.position;
@@ -221,14 +223,15 @@ public class TileManager : MonoBehaviour {
         float zRotation = angleX - 90f;
         Quaternion rotation = Quaternion.Euler(0f, 0f, zRotation);
 
-        GameObject mapConnector = Instantiate(mapConnectorPrefab, mapConnectorPos, rotation, scrollViewPanel);
+        // Higher magnitudeReduction number makes the connector's length smaller
         int magnitudeReduction = 120;
-        if (parentMapTile.tileType == TileType.MiniBoss) {
+        if (parentMapTile.tileType == TileType.MiniBoss || childMapTile.tileType == TileType.MiniBoss) {
             magnitudeReduction = 200;
-        } else if (childMapTile.tileType == TileType.MiniBoss) {
-            magnitudeReduction = 200;
+        } else if (parentMapTile.tileType == TileType.Boss) {
+            magnitudeReduction = 320;
         }
 
+        GameObject mapConnector = Instantiate(mapConnectorPrefab, mapConnectorPos, rotation, scrollViewPanel);
         mapConnector.GetComponent<RectTransform>().sizeDelta = new Vector2(150, posDiff.magnitude - magnitudeReduction) * 4;
     }
 
@@ -268,7 +271,7 @@ public class TileManager : MonoBehaviour {
                         CreateMergeTiles(sector, y, TileType.Campfire, true);
                         break;
                     case 10:
-                        CreateMiniBossTile(sector, y);
+                        CreateBossTile(sector, y);
                         break;
                 }
             }
