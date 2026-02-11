@@ -509,7 +509,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Battlefield_0: 9119414098855660196
+      Battlefield_1: -1878906949124596792
+      Battlefield_10: 8831828784697892432
+      Battlefield_11: -7072462142491186850
+      Battlefield_12: -8541176014251827288
+      Battlefield_13: 3912241299995323834
+      Battlefield_14: 5186511791848071061
+      Battlefield_15: -3121545402360862280
+      Battlefield_2: 859655148932740551
+      Battlefield_3: 8718531954214363941
+      Battlefield_4: 720350116290670383
+      Battlefield_5: 2656986965153991529
+      Battlefield_6: -1791724322715433247
+      Battlefield_7: -3844577436378865724
+      Battlefield_8: 3352964281429596363
+      Battlefield_9: 1697260100243709740
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

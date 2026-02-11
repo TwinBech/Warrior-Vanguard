@@ -9,7 +9,7 @@ public class ObeliskSiphoner {
             speed = 0,
             range = 0,
             damageType = DamageType.Magical,
-            race = Race.Construct,
+            race = Race.Support,
             rarity = CardRarity.Rare,
             genre = Genre.Undead,
         };

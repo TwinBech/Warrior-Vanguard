@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ThirdEyeHarpy_0: -1557764293630864130
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
